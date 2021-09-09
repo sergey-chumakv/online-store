@@ -1,9 +1,13 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [
+    "tslint-config-prettier",
+    "tslint:recommended"
+  ],
   "rulesDirectory": [
     "codelyzer"
   ],
   "rules": {
+    "prettier": true,
     "align": {
       "options": [
         "parameters",
@@ -36,10 +40,18 @@
       true,
       {
         "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
+          "protected-instance-field",
+          "private-instance-field",
+          "public-instance-field",
+          "protected-instance-accessor",
+          "private-instance-accessor",
+          "public-instance-accessor",
+          "protected-constructor",
+          "private-constructor",
+          "public-constructor",
+          "protected-instance-method",
+          "private-instance-method",
+          "public-instance-method"
         ]
       }
     ],
@@ -118,9 +130,29 @@
         "check-operator",
         "check-separator",
         "check-type",
-        "check-typecast"
+        "check-typecast",
+        "check-module",
+        "check-preblock",
+        "check-postbrace"
       ]
     },
+    "no-trailing-whitespace": false,
+    "newline-before-return": true,
+    "arrow-parens": true,
+    "no-boolean-literal-compare": true,
+    "interface-over-type-literal": true,
+    "interface-name": true,
+    "prefer-readonly": true,
+    "no-require-imports": true,
+    "no-duplicate-imports": true,
+    "no-default-export": true,
+    "unnecessary-constructor": true,
+    "triple-equals": true,
+    "no-var-keyword": true,
+    "no-for-in": true,
+    "no-empty-interface": true,
+    "no-any": true,
+    "member-access": true,
     "component-class-suffix": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,

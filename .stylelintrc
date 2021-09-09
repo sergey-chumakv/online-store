@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "stylelint-prettier/recommended",
+    "stylelint-config-standard",
+    "stylelint-config-recommended",
+    "stylelint-config-recommended-scss",
+    "stylelint-config-property-sort-order-smacss"
+  ],
+  "rules": {
+    "indentation": "tab"
+  }
+}
