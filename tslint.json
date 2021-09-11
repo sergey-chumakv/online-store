@@ -132,8 +132,7 @@
         "check-type",
         "check-typecast",
         "check-module",
-        "check-preblock",
-        "check-postbrace"
+        "check-preblock"
       ]
     },
     "no-trailing-whitespace": false,
