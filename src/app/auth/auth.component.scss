@@ -1,0 +1,61 @@
+.auth-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.dark {
+	background: url('../../assets/img/dark.jpg');
+	-moz-background-size: 100%;
+	-webkit-background-size: 100%;
+
+	.auth {
+		border-radius: 5px;
+		background: #c3c3c3;
+	}
+}
+
+.light {
+	background: url('../../assets/img/texture.jpg');
+	-moz-background-size: 100%;
+	-webkit-background-size: 100%;
+}
+
+.auth {
+	z-index: 5;
+	width: 25%;
+
+	&__sign-in {
+		display: flex;
+		flex-flow: column;
+		justify-content: space-between;
+		margin: 10px;
+	}
+}
+
+.example-form {
+	width: 100%;
+	min-width: 150px;
+	max-width: 500px;
+}
+
+.example-full-width {
+	width: 100%;
+}
+
+.backdrop {
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: rgba(255, 255, 255, 0.2); // Make sure this color has an opacity of less than 1
+	backdrop-filter: blur(2px); // This be the blur
+}
+
+app-toggle-button {
+	z-index: 5;
+}

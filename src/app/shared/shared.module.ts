@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+  declarations: [ToggleButtonComponent],
+  exports: [MatTabsModule, MatButtonModule, MatInputModule, ToggleButtonComponent],
 })
 export class SharedModule {}

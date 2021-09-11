@@ -1,0 +1,52 @@
+<div class="auth-wrapper" [ngClass]="{ dark: toggleDarkTheme, light: !toggleDarkTheme }">
+  <app-toggle-button (toggle)="onToggle($event)"></app-toggle-button>
+  <div class="auth">
+    <mat-tab-group color="warn" dynamicHeight mat-stretch-tabs>
+      <mat-tab label="Sign in">
+        <div class="auth__sign-in">
+          <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput placeholder="Ex. pat@example.com" autocomplete="off" />
+            </mat-form-field>
+          </form>
+          <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input type="email" matInput placeholder="******" />
+            </mat-form-field>
+          </form>
+          <button mat-raised-button color="warn">Login</button>
+        </div>
+      </mat-tab>
+      <mat-tab label="Sign up"
+        ><div class="auth__sign-in">
+          <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Login</mat-label>
+              <input type="text" matInput placeholder="Login" autocomplete="off" />
+            </mat-form-field>
+          </form>
+          <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput placeholder="Ex. pat@example.com" autocomplete="off" />
+            </mat-form-field>
+          </form>
+          <form class="example-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput placeholder="******" autocomplete="off" />
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Repeat password</mat-label>
+              <input type="password" matInput placeholder="******" autocomplete="off" />
+            </mat-form-field>
+          </form>
+          <button mat-raised-button color="warn">Submit</button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="backdrop"></div>
+</div>

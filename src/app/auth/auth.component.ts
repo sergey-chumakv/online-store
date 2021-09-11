@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
+  public toggleDarkTheme = false;
 
   public ngOnInit(): void {}
+
+  public onToggle(checked: boolean): void {
+    console.log(checked);
+    this.toggleDarkTheme = checked;
+  }
 }
