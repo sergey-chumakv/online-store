@@ -4,58 +4,109 @@
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-}
+	background: linear-gradient(135deg, #e55d87 0%, #5fc3e4 100%);
 
-.dark {
-	background: url('../../assets/img/dark.jpg');
-	-moz-background-size: 100%;
-	-webkit-background-size: 100%;
+	.shop {
+		position: absolute;
+		top: 0;
+		left: 15px;
+		height: 100px;
+	}
 
 	.auth {
-		border-radius: 5px;
-		background: #c3c3c3;
+		width: 500px;
+
+		&__sign-in {
+			display: flex;
+			flex-flow: column;
+			justify-content: space-between;
+			margin: 10px;
+		}
+
+		.example-form {
+			width: 100%;
+			min-width: 150px;
+			max-width: 600px;
+		}
+
+		.example-full-width {
+			width: 100%;
+		}
 	}
-}
 
-.light {
-	background: url('../../assets/img/texture.jpg');
-	-moz-background-size: 100%;
-	-webkit-background-size: 100%;
-}
-
-.auth {
-	z-index: 5;
-	width: 500px;
-
-	&__sign-in {
+	.signature {
 		display: flex;
-		flex-flow: column;
-		justify-content: space-between;
-		margin: 10px;
+		position: absolute;
+		bottom: 20px;
+		left: 20px;
+		align-items: end;
+		font-family: Allison, sans-serif;
+		font-size: 60px;
+
+		.avatar {
+			height: 100px;
+		}
+
+		span {
+			margin-bottom: 20px;
+			margin-left: 20px;
+		}
 	}
 }
 
-.example-form {
-	width: 100%;
-	min-width: 150px;
-	max-width: 500px;
+@media (max-width: 1000px) {
+	.auth-wrapper {
+		.auth {
+			width: 400px;
+		}
+
+		.signature {
+			span {
+				margin-bottom: 0;
+				line-height: 40px;
+			}
+		}
+	}
 }
 
-.example-full-width {
-	width: 100%;
+@media (max-width: 500px) {
+	.auth-wrapper {
+		.auth {
+			width: 100%;
+		}
+
+		.signature {
+			.avatar {
+				height: 80px;
+			}
+
+			span {
+				margin-right: 10px;
+				margin-left: 10px;
+				font-size: 40px;
+				line-height: 35px;
+			}
+		}
+	}
 }
 
-.backdrop {
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100vh;
-	background: rgba(255, 255, 255, 0.2); // Make sure this color has an opacity of less than 1
-	backdrop-filter: blur(2px); // This be the blur
-}
+@media (max-width: 319px) {
+	.auth-wrapper {
+		.shop {
+			height: 80px;
+		}
+	}
 
-app-toggle-button {
-	z-index: 5;
+	.signature {
+		.avatar {
+			height: 60px;
+		}
+
+		span {
+			margin-bottom: 0;
+			margin-left: 10px;
+			font-size: 36px;
+			line-height: 25px;
+		}
+	}
 }

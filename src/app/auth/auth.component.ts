@@ -11,7 +11,6 @@ export class AuthComponent implements OnInit {
   public ngOnInit(): void {}
 
   public onToggle(checked: boolean): void {
-    console.log(checked);
     this.toggleDarkTheme = checked;
   }
 }
