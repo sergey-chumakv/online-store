@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$online-store-primary: mat-palette($mat-indigo);
+$online-store-accent: mat-palette($mat-pink, a200, a100, a400);
+$online-store-warn: mat-palette($mat-red);
+$online-store-theme: mat-light-theme(
+	(
+		color: (
+			primary: $online-store-primary,
+			accent: $online-store-accent,
+			warn: $online-store-warn,
+		),
+	)
+);
+
+@include angular-material-theme($online-store-theme);
