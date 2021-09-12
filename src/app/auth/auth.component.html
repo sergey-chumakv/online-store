@@ -4,48 +4,142 @@
   </div>
 
   <div class="auth">
-    <mat-tab-group color="primary" dynamicHeight mat-stretch-tabs>
-      <mat-tab label="Sign in">
+    <mat-tab-group
+      [selectedIndex]="selected"
+      (selectedIndexChange)="selectTabs($event)"
+      [color]="getColorSignInForm"
+      dynamicHeight
+      mat-stretch-tabs>
+      <mat-tab (click)="signUp()" label="Sign in">
         <div class="auth__sign-in">
-          <form class="auth__form">
-            <mat-form-field color="primary" class="auth__form--full-width" appearance="fill">
+          <form [formGroup]="signInForm" class="auth__form">
+            <mat-form-field class="auth__form--full-width" appearance="fill">
               <mat-label>Email</mat-label>
-              <input type="email" matInput placeholder="Ex. pat@example.com" autocomplete="off" />
+              <input
+                type="email"
+                formControlName="email"
+                matInput
+                placeholder="Ex. pat@example.com" />
+
+              <mat-error *ngIf="isInvalidSignInFormEmail">
+                You suck (Please enter a valid email address)
+              </mat-error>
+
+              <mat-error *ngIf="signInForm.controls.email.hasError('required')">
+                You suck (Email is <strong>required</strong>)
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="auth__form--full-width" appearance="fill">
               <mat-label>Password</mat-label>
-              <input type="email" matInput placeholder="******" />
+              <input type="password" formControlName="password" matInput placeholder="******" />
+
+              <mat-error *ngIf="!signInForm.controls.password.hasError('required')">
+                You suck (Minimum length must be 6 characters) Actual:
+                {{ actualLengthPasswordSignIn }}
+              </mat-error>
+
+              <mat-error *ngIf="signInForm.controls.password.hasError('required')">
+                You suck (Password is <strong>required</strong>)
+              </mat-error>
             </mat-form-field>
           </form>
-          <button mat-raised-button color="primary">Login</button>
+
+          <button
+            (click)="signIn()"
+            type="submit"
+            [disabled]="signInForm.invalid"
+            mat-raised-button
+            color="primary">
+            Login
+          </button>
         </div>
       </mat-tab>
 
-      <mat-tab label="Sign up">
+      <mat-tab (click)="signInForm.reset()" label="Sign up">
         <div class="auth__sign-in">
-          <form class="auth__form">
+          <form [formGroup]="signUpForm" class="auth__form">
             <mat-form-field class="auth__form--full-width" appearance="fill">
-              <mat-label>Login</mat-label>
-              <input type="text" matInput placeholder="Login" autocomplete="off" />
+              <mat-label>Username</mat-label>
+              <input
+                formControlName="username"
+                type="text"
+                matInput
+                placeholder="Login"
+                autocomplete="off" />
+
+              <mat-error *ngIf="signUpForm.controls.username.hasError('required')">
+                You suck (Username is <strong>required</strong>)
+              </mat-error>
+
+              <mat-error *ngIf="signUpForm.controls.username.hasError('onlyLetters')">
+                You suck (Only letters allowed)
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="auth__form--full-width" appearance="fill">
               <mat-label>Email</mat-label>
-              <input type="email" matInput placeholder="Ex. pat@example.com" autocomplete="off" />
+              <input
+                formControlName="email"
+                type="email"
+                matInput
+                placeholder="Ex. pat@example.com"
+                autocomplete="off" />
+
+              <mat-error *ngIf="isInvalidSignUpFormEmail">
+                You suck (Please enter a valid email address)
+              </mat-error>
+
+              <mat-error *ngIf="signUpForm.controls.email.hasError('required')">
+                You suck (Email is <strong>required</strong>)
+              </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="auth__form--full-width" appearance="fill">
-              <mat-label>Password</mat-label>
-              <input type="password" matInput placeholder="******" autocomplete="off" />
-            </mat-form-field>
+            <div formGroupName="password">
+              <mat-form-field class="auth__form--full-width" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input
+                  formControlName="password"
+                  type="password"
+                  matInput
+                  placeholder="******"
+                  autocomplete="off" />
 
-            <mat-form-field class="auth__form--full-width" appearance="fill">
-              <mat-label>Repeat password</mat-label>
-              <input type="password" matInput placeholder="******" autocomplete="off" />
-            </mat-form-field>
+                <mat-error
+                  *ngIf="!signUpForm.get('password')?.get('password')?.hasError('required')">
+                  You suck (Minimum length must be 6 characters) Actual:
+                  {{ actualLengthPasswordSignUp }}
+                </mat-error>
+
+                <mat-error
+                  *ngIf="signUpForm.get('password')?.get('password')?.hasError('required')">
+                  You suck (Password is <strong>required</strong>)
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="auth__form--full-width" appearance="fill">
+                <mat-label>Repeat password</mat-label>
+                <input
+                  formControlName="copyPassword"
+                  type="password"
+                  matInput
+                  placeholder="******"
+                  autocomplete="off" />
+              </mat-form-field>
+              <mat-error class="auth__nonEqual" *ngIf="isNonEqualPassword">
+                You suck ({{ signUpForm.get('password')?.errors?.nonEqual }})
+              </mat-error>
+            </div>
           </form>
-          <button mat-raised-button color="primary">Submit</button>
+
+          <button
+            type="submit"
+            (click)="signUp()"
+            [disabled]="signUpForm.invalid"
+            mat-raised-button
+            color="primary">
+            Submit
+          </button>
         </div>
       </mat-tab>
     </mat-tab-group>

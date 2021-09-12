@@ -7,6 +7,7 @@ import { MainComponent } from './main/main.component';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, AuthComponent, MainComponent],
@@ -16,6 +17,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     SharedModule,
     BrowserAnimationsModule,
     MatButtonToggleModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
