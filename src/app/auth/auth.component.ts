@@ -67,10 +67,12 @@ export class AuthComponent {
 
   public signIn(): void {
     console.log(this.signInForm.value);
+    this.signInForm.reset();
   }
 
   public signUp(): void {
     console.log(this.signUpForm.value);
+    this.signUpForm.reset();
   }
 
   public selectTabs($event: number): void {
