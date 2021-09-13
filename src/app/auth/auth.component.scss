@@ -5,150 +5,134 @@
 	min-height: 100%;
 	background: var(--color-background-primary);
 
-	.shop {
+	&__header {
 		content: url('../../assets/img/south-park.png');
 		height: 100px;
 		margin: 0 10px 10px 10px;
 	}
 
-	&__shop {
-		position: relative;
+	&__footer {
+		display: flex;
+		align-items: end;
+		margin: 10px;
+		font-size: 32px;
 
-		&:hover {
-			.info {
-				visibility: visible;
+		&--avatar {
+			content: url('../../assets/img/mysterion.png');
+			height: 100px;
+		}
+
+		&--signature {
+			position: relative;
+			margin-left: 15px;
+
+			&:hover {
+				.auth-wrapper__footer--info {
+					visibility: visible;
+				}
 			}
 		}
 
-		.info {
+		&--name {
+			line-height: 1.1;
+		}
+
+		&--info {
 			visibility: hidden;
 			position: absolute;
 			bottom: 100%;
 			left: 100%;
 			width: 250px;
-			height: min-content;
 			padding: 10px;
 			border-radius: 5px;
 			background: rgba(84, 84, 84, 0.2);
 			font-size: 14px;
 		}
 	}
+}
 
-	.auth {
-		align-self: center;
-		width: 500px;
+.auth {
+	align-self: center;
+	width: 500px;
 
-		&__sign-in {
-			display: flex;
-			flex-flow: column;
-			justify-content: space-between;
-			margin: 10px;
+	&__sign-in {
+		display: flex;
+		flex-flow: column;
+		justify-content: space-between;
+		margin: 10px;
+	}
+
+	&__form {
+		width: 100%;
+		min-width: 150px;
+		max-width: 600px;
+
+		&--full-width {
+			width: 100%;
 		}
 
-		&__nonEqual {
+		&--nonEqual {
 			margin-top: -18px;
 			margin-left: 10px;
 			font-size: 10.5px;
-		}
-
-		&__form {
-			width: 100%;
-			min-width: 150px;
-			max-width: 600px;
-
-			&--full-width {
-				width: 100%;
-			}
-		}
-	}
-
-	.signature {
-		display: flex;
-		align-items: end;
-		margin: 10px;
-		font-size: 32px;
-
-		.avatar {
-			content: url('../../assets/img/mysterion.png');
-			height: 100px;
-		}
-
-		span {
-			margin-left: 20px;
-			line-height: 1.1;
 		}
 	}
 }
 
 @media (max-width: 1000px) {
-	.auth-wrapper {
-		.auth {
-			width: 400px;
-		}
+	.auth-wrapper__footer--info {
+		left: 25%;
+		margin-bottom: 10px;
+		margin-left: 10px;
+	}
 
-		&__shop {
-			.info {
-				left: 25%;
-				margin-bottom: 10px;
-			}
-		}
+	.auth {
+		width: 400px;
 	}
 }
 
 @media (max-width: 500px) {
-	.auth-wrapper {
-		.auth {
-			width: 100%;
-		}
+	.auth-wrapper__footer--avatar {
+		height: 80px;
+	}
 
-		.signature {
-			.avatar {
-				height: 80px;
-			}
+	.auth-wrapper__footer--name {
+		margin-right: 10px;
+		font-size: 24px;
+	}
 
-			span {
-				margin-right: 10px;
-				margin-left: 10px;
-				font-size: 24px;
-			}
-		}
+	.auth-wrapper__footer--info {
+		left: 0;
+		width: 200px;
+		margin-bottom: 10px;
+		margin-left: 10px;
+		font-size: 12px;
+	}
 
-		&__shop {
-			.info {
-				left: 0;
-				width: 200px;
-				margin-bottom: 10px;
-				font-size: 12px;
-			}
-		}
+	.auth {
+		width: 100%;
 	}
 }
 
-@media (max-width: 319px) {
-	.auth-wrapper {
-		.shop {
-			height: 80px;
-		}
+@media (max-width: 325px) {
+	.auth-wrapper__header {
+		height: 80px;
+		margin-left: 10px;
+	}
 
-		.signature {
-			.avatar {
-				height: 60px;
-			}
+	.auth-wrapper__footer--avatar {
+		height: 60px;
+	}
 
-			span {
-				margin-bottom: 0;
-				margin-left: 10px;
-				font-size: 20px;
-			}
-		}
+	.auth-wrapper__footer--name {
+		margin-bottom: 0;
+		font-size: 20px;
+	}
 
-		&__shop {
-			.info {
-				left: 0;
-				width: 150px;
-				margin-bottom: 10px;
-				font-size: 10px;
-			}
-		}
+	.auth-wrapper__footer--info {
+		left: 0;
+		width: 150px;
+		margin-bottom: 10px;
+		font-size: 10px;
 	}
 }

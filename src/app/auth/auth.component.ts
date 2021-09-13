@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { AuthValidators } from './auth.validators';
 
@@ -25,7 +25,6 @@ export class AuthComponent {
       { validators: [AuthValidators.equalPassword] },
     ),
   });
-  public selected = 0;
 
   get getColorSignInForm(): ThemePalette {
     return (this.signInForm.invalid && this.signInForm.touched) ||
@@ -75,12 +74,11 @@ export class AuthComponent {
     this.signUpForm.reset();
   }
 
-  public selectTabs($event: number): void {
-    this.selected = $event;
-    if (this.selected === 0 && !this.signUpForm.dirty) {
+  public resetFormOnTabChange(tab: number): void {
+    if (tab === 0 && !this.signUpForm.dirty) {
       this.signUpForm.reset();
     }
-    if (this.selected === 1 && !this.signInForm.dirty) {
+    if (tab === 1 && !this.signInForm.dirty) {
       this.signInForm.reset();
     }
   }
