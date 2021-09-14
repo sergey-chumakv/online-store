@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { AuthValidators } from './auth.validators';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
+import { ISingUpForm } from './auth.types';
 
 @Component({
   selector: 'app-auth',
@@ -25,6 +28,8 @@ export class AuthComponent {
       { validators: [AuthValidators.equalPassword] },
     ),
   });
+
+  public submitted = false;
 
   get getColorSignInForm(): ThemePalette {
     return (this.signInForm.invalid && this.signInForm.touched) ||
@@ -62,16 +67,43 @@ export class AuthComponent {
     return this.signUpForm.get('password')?.get('password')?.errors?.minlength?.actualLength;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, public auth: AuthService, private router: Router) {}
 
   public signIn(): void {
-    console.log(this.signInForm.value);
-    this.signInForm.reset();
+    if (this.signInForm.invalid) {
+      return;
+    }
+
+    this.submitted = true;
+
+    this.auth.login(this.signInForm.value).subscribe(
+      () => {
+        this.signInForm.reset();
+        this.router.navigate(['/home']);
+        this.submitted = false;
+      },
+      () => (this.submitted = false),
+    );
   }
 
   public signUp(): void {
-    console.log(this.signUpForm.value);
-    this.signUpForm.reset();
+    if (this.signUpForm.invalid) {
+      return;
+    }
+
+    this.submitted = true;
+
+    const password: string = this.signUpForm.get('password')?.get('password')?.value;
+    const singUp: ISingUpForm = { ...this.signUpForm.value, password };
+
+    this.auth.signUp(singUp).subscribe(
+      () => {
+        this.signInForm.reset();
+        this.router.navigate(['/auth']);
+        this.submitted = false;
+      },
+      () => (this.submitted = false),
+    );
   }
 
   public resetFormOnTabChange(tab: number): void {
