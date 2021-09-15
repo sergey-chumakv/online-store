@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IFbAuthResponse, ISingInForm, ISingUpForm } from './auth.types';
+import { IFbAuthResponse, ISingInForm, ISingUpForm, IUserAccount } from './auth.types';
 import { Observable, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { catchError, tap } from 'rxjs/operators';
@@ -90,15 +90,22 @@ export class AuthService {
     AuthService.setToken(null);
   }
 
-  public signUp(singUpForm: ISingUpForm): Observable<unknown> {
+  public signUp(singUpForm: ISingUpForm): Observable<IFbAuthResponse | Error> {
     singUpForm.returnSecureToken = true;
 
     return this.http
-      .post(
+      .post<IFbAuthResponse>(
         `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
         singUpForm,
       )
       .pipe(catchError(this.handleErrorSignUp.bind(this)));
+  }
+
+  public changeAccount(body: IUserAccount): Observable<IFbAuthResponse> {
+    return this.http.post<IFbAuthResponse>(
+      `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${environment.apiKey}`,
+      body,
+    );
   }
 
   public isAuthenticated(): boolean {

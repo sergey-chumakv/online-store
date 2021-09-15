@@ -4,22 +4,25 @@ import { ThemePalette } from '@angular/material/core';
 import { AuthValidators } from './auth.validators';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { ISingUpForm } from './auth.types';
+import { ISingUpForm, IUserAccount } from './auth.types';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarComponent } from '../shared/material/snack-bar/snack-bar.component';
+import { SchematicsAngularComponent } from '@angular/cli/lib/config/schema';
+import { ComponentType } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
   public signInForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   public signUpForm = this.fb.group({
-    username: ['SirSchmuck'.trim(), [Validators.required, AuthValidators.loginValidate]],
+    username: ['SirDouchebag'.trim(), [Validators.required, AuthValidators.loginValidate]],
     email: ['', [Validators.required, Validators.email]],
     password: this.fb.group(
       {
@@ -75,16 +78,6 @@ export class AuthComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) {}
 
-  public ngOnInit(): void {
-    this.snackBar.open('Successful registration', 'Close', {
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
-    if (this.auth.isAuthenticated()) {
-      this.router.navigate(['/home']);
-    }
-  }
-
   public signIn(): void {
     if (this.signInForm.invalid) {
       return;
@@ -113,17 +106,36 @@ export class AuthComponent implements OnInit {
     const singUp: ISingUpForm = { ...this.signUpForm.value, password };
 
     this.auth.signUp(singUp).subscribe(
-      () => {
+      (resp) => {
+        if ('idToken' in resp) {
+          this.changeUserAccount(resp.idToken, this.signUpForm.get('username')?.value);
+        }
+
         this.signUpForm.reset();
         this.router.navigate(['/auth']);
         this.submitted = false;
-        this.snackBar.open('Cannonball!!', 'Splash', {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
+
+        this.showSnackBar(SnackBarComponent);
       },
       () => (this.submitted = false),
     );
+  }
+
+  public showSnackBar(component: ComponentType<unknown>): void {
+    this.snackBar.openFromComponent(component, {
+      duration: 1500,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+  }
+
+  public changeUserAccount(idToken: string, userName: string): void {
+    const body: IUserAccount = {
+      idToken,
+      displayName: userName,
+      returnSecureToken: false,
+    };
+    this.auth.changeAccount(body).subscribe(() => {});
   }
 
   public resetFormOnTabChange(tab: number): void {

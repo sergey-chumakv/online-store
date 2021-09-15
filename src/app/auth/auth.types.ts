@@ -9,11 +9,20 @@ export interface ISingUpForm extends ISingInForm {
 }
 
 export interface IFbAuthResponse {
-  displayName: string;
+  displayName?: string;
   email: string;
   idToken: string;
   kind: string;
   localId: string;
   registered: boolean;
   expiresIn: string;
+  refreshToken?: string;
+}
+
+export interface IUserAccount {
+  idToken: string;
+  displayName?: string;
+  photoUrl?: string;
+  deleteAttribute?: string[];
+  returnSecureToken?: boolean;
 }

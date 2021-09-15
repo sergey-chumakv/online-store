@@ -1,0 +1,12 @@
+.snack-bar {
+	color: #0090ff;
+	font-size: 18px;
+	text-align: center;
+}
+
+::ng-deep {
+	.mat-snack-bar-container {
+		background-color: rgba(47, 47, 47, 0.75);
+		text-align: center;
+	}
+}
