@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { AuthValidators } from './auth.validators';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { ISingUpForm } from './auth.types';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   public signInForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -67,7 +68,22 @@ export class AuthComponent {
     return this.signUpForm.get('password')?.get('password')?.errors?.minlength?.actualLength;
   }
 
-  constructor(private fb: FormBuilder, public auth: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    public auth: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+  ) {}
+
+  public ngOnInit(): void {
+    this.snackBar.open('Successful registration', 'Close', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+  }
 
   public signIn(): void {
     if (this.signInForm.invalid) {
@@ -98,9 +114,13 @@ export class AuthComponent {
 
     this.auth.signUp(singUp).subscribe(
       () => {
-        this.signInForm.reset();
+        this.signUpForm.reset();
         this.router.navigate(['/auth']);
         this.submitted = false;
+        this.snackBar.open('Cannonball!!', 'Splash', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
       },
       () => (this.submitted = false),
     );

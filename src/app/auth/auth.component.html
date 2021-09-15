@@ -44,7 +44,9 @@
             </mat-form-field>
           </form>
 
-          <div class="auth__error" *ngIf="auth.error$ | async as error">You suck ({{ error }})</div>
+          <div class="auth__error" *ngIf="auth.errorLogin$ | async as error">
+            You suck ({{ error }})
+          </div>
 
           <button
             (click)="signIn()"
@@ -132,6 +134,10 @@
               </mat-error>
             </div>
           </form>
+
+          <div class="auth__error" *ngIf="auth.errorSignUp$ | async as error">
+            You suck ({{ error }})
+          </div>
 
           <button
             type="submit"

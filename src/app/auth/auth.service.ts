@@ -9,7 +9,8 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  public error$: Subject<string> = new Subject<string>();
+  public errorLogin$: Subject<string> = new Subject<string>();
+  public errorSignUp$: Subject<string> = new Subject<string>();
 
   get token(): string | null {
     // @ts-ignore
@@ -35,18 +36,39 @@ export class AuthService {
     }
   }
 
-  private handleError(error: HttpErrorResponse): Observable<Error> {
+  private handleErrorLogin(error: HttpErrorResponse): Observable<Error> {
     const { message } = error.error.error;
 
     switch (message) {
       case 'INVALID_EMAIL':
-        this.error$.next('Invalid email');
+        this.errorLogin$.next('Invalid email');
         break;
       case 'INVALID_PASSWORD':
-        this.error$.next('Invalid password');
+        this.errorLogin$.next('Invalid password');
         break;
       case 'EMAIL_NOT_FOUND':
-        this.error$.next('Email not found');
+        this.errorLogin$.next('Email not found');
+        break;
+    }
+
+    return throwError(error);
+  }
+
+  private handleErrorSignUp(error: HttpErrorResponse): Observable<Error> {
+    const { message } = error.error.error;
+
+    switch (message) {
+      case 'INVALID_EMAIL':
+        this.errorSignUp$.next('Invalid email');
+        break;
+      case 'EMAIL_EXISTS':
+        this.errorSignUp$.next('Email exists');
+        break;
+      case 'OPERATION_NOT_ALLOWED':
+        this.errorSignUp$.next('Operation not allowed');
+        break;
+      case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+        this.errorSignUp$.next('Too many attempts try later');
         break;
     }
 
@@ -61,7 +83,7 @@ export class AuthService {
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
         singInForm,
       )
-      .pipe(tap(AuthService.setToken), catchError(this.handleError.bind(this)));
+      .pipe(tap(AuthService.setToken), catchError(this.handleErrorLogin.bind(this)));
   }
 
   public logout(): void {
@@ -71,7 +93,12 @@ export class AuthService {
   public signUp(singUpForm: ISingUpForm): Observable<unknown> {
     singUpForm.returnSecureToken = true;
 
-    return this.http.post('', singUpForm);
+    return this.http
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
+        singUpForm,
+      )
+      .pipe(catchError(this.handleErrorSignUp.bind(this)));
   }
 
   public isAuthenticated(): boolean {
