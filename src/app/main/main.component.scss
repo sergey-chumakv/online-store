@@ -1,0 +1,29 @@
+:host {
+	height: 100%;
+}
+
+mat-drawer-container {
+	height: 100%;
+}
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+mat-drawer {
+	width: 250px;
+	height: 500px;
+	margin: 20px 0;
+	border-radius: 0 5px 5px 0;
+	background: rgba(169, 169, 169, 0.9);
+}
+
+mat-icon {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 48px;
+	font-weight: bold;
+}
