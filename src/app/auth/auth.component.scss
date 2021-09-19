@@ -80,7 +80,7 @@
 
 	&__error {
 		margin: -7px 0 3px 10px;
-		color: red;
+		color: var(--color-text-error);
 		font-size: 10.5px;
 	}
 }
@@ -141,8 +141,4 @@
 		margin-bottom: 10px;
 		font-size: 10px;
 	}
-}
-
-.govno {
-	background-color: #6b67fd;
 }

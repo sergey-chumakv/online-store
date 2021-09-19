@@ -9,6 +9,7 @@
   "rules": {
     "indentation": "tab",
     "no-empty-source": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "selector-pseudo-element-no-unknown": null,
   }
 }

@@ -1,1 +1,6 @@
-<span class="snack-bar alert"> Successful registration </span>
+<div [ngClass]="classes">
+  <span class="alert"> {{ data.message }} </span>
+  <span class="close" *ngIf="data.action" (click)="close()">
+    {{ data.action }}
+  </span>
+</div>

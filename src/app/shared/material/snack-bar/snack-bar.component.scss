@@ -1,12 +1,41 @@
-.snack-bar {
-	color: #0090ff;
-	font-size: 18px;
-	text-align: center;
+.wrapper {
+	&--space-between {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&--center {
+		display: flex;
+		justify-content: center;
+	}
 }
 
 ::ng-deep {
 	.mat-snack-bar-container {
-		background-color: rgba(47, 47, 47, 0.75);
-		text-align: center;
+		background-color: var(--color-background-snackbar);
+	}
+}
+
+.primary {
+	.alert {
+		margin: 0 10px;
+		color: var(--color-text-primary);
+		font-size: 20px;
+	}
+}
+
+.warn {
+	.alert {
+		margin: 0 10px;
+		color: var(--color-text-warn);
+		font-size: 20px;
+	}
+}
+
+.accent {
+	.alert {
+		margin: 0 10px;
+		color: var(--color-text-accent);
+		font-size: 20px;
 	}
 }

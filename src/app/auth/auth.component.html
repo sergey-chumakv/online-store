@@ -5,13 +5,14 @@
 
   <div class="auth">
     <mat-tab-group
+      [selectedIndex]="tabSelected"
       (selectedIndexChange)="resetFormOnTabChange($event)"
       [color]="getColorSignInForm"
       dynamicHeight
       mat-stretch-tabs>
       <mat-tab (click)="signUp()" label="Sign In">
         <div class="auth__sign-in">
-          <form [formGroup]="signInForm" class="auth__form">
+          <form [formGroup]="signInForm" (keyup.enter)="login()" class="auth__form">
             <mat-form-field class="auth__form--full-width" appearance="fill">
               <mat-label>Email</mat-label>
               <input
@@ -49,7 +50,7 @@
           </div>
 
           <button
-            (click)="signIn()"
+            (click)="login()"
             type="submit"
             [disabled]="signInForm.invalid || submitted"
             mat-raised-button
@@ -61,7 +62,7 @@
 
       <mat-tab (click)="signInForm.reset()" label="Sign Up">
         <div class="auth__sign-in">
-          <form [formGroup]="signUpForm" class="auth__form">
+          <form [formGroup]="signUpForm" (keyup.enter)="signUp()" class="auth__form">
             <mat-form-field class="auth__form--full-width" appearance="fill">
               <mat-label>Username</mat-label>
               <input

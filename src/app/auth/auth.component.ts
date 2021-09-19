@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import { AuthValidators } from './auth.validators';
-import { AuthService } from './auth.service';
+import { AuthValidators } from '../services/auth/auth.validators';
+import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
-import { ISingUpForm, IUserAccount } from './auth.types';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from '../shared/material/snack-bar/snack-bar.component';
-import { SchematicsAngularComponent } from '@angular/cli/lib/config/schema';
-import { ComponentType } from '@angular/cdk/overlay';
+import { ISingUpForm } from '../services/auth/auth.types';
+import { HelpersService } from '../services/helpers.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,6 +13,9 @@ import { ComponentType } from '@angular/cdk/overlay';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent {
+  public submitted = false;
+  public tabSelected = 0;
+
   public signInForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -32,8 +32,6 @@ export class AuthComponent {
       { validators: [AuthValidators.equalPassword] },
     ),
   });
-
-  public submitted = false;
 
   get getColorSignInForm(): ThemePalette {
     return (this.signInForm.invalid && this.signInForm.touched) ||
@@ -75,75 +73,63 @@ export class AuthComponent {
     private fb: FormBuilder,
     public auth: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    private helpersService: HelpersService,
   ) {}
 
-  public signIn(): void {
-    if (this.signInForm.invalid) {
-      return;
-    }
+  public login(): void {
+    if (this.signInForm.invalid) return;
 
     this.submitted = true;
-
     this.auth.login(this.signInForm.value).subscribe(
       () => {
-        this.signInForm.reset();
-        this.router.navigate(['/home']);
-        this.submitted = false;
+        this.auth.getUserData(this.auth.token).subscribe(
+          () => {
+            this.signInForm.reset();
+            this.router.navigate(['/home']);
+            this.submitted = false;
+          },
+          (error) => {
+            this.helpersService.showSnackBar(`${error.name} Try again later `, 'Close', 'warn');
+            this.auth.logout();
+            this.submitted = false;
+          },
+        );
       },
       () => (this.submitted = false),
     );
   }
 
   public signUp(): void {
-    if (this.signUpForm.invalid) {
-      return;
-    }
+    if (this.signUpForm.invalid) return;
 
     this.submitted = true;
-
     const password: string = this.signUpForm.get('password')?.get('password')?.value;
     const singUp: ISingUpForm = { ...this.signUpForm.value, password };
 
     this.auth.signUp(singUp).subscribe(
       (resp) => {
         if ('idToken' in resp) {
-          this.changeUserAccount(resp.idToken, this.signUpForm.get('username')?.value);
+          this.auth
+            .updateUserProfile(resp.idToken, this.signUpForm.get('username')?.value)
+            .subscribe((v) => {
+              console.log(v);
+            });
+          this.auth.confirmationEmail(resp.idToken).subscribe();
         }
 
         this.signUpForm.reset();
-        this.router.navigate(['/auth']);
+        this.tabSelected = 0;
         this.submitted = false;
 
-        this.showSnackBar(SnackBarComponent);
+        this.helpersService.showSnackBar('Successful registration');
       },
       () => (this.submitted = false),
     );
   }
 
-  public showSnackBar(component: ComponentType<unknown>): void {
-    this.snackBar.openFromComponent(component, {
-      duration: 1500,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-    });
-  }
-
-  public changeUserAccount(idToken: string, userName: string): void {
-    const body: IUserAccount = {
-      idToken,
-      displayName: userName,
-      returnSecureToken: false,
-    };
-    this.auth.changeAccount(body).subscribe(() => {});
-  }
-
   public resetFormOnTabChange(tab: number): void {
-    if (tab === 0 && !this.signUpForm.dirty) {
-      this.signUpForm.reset();
-    }
-    if (tab === 1 && !this.signInForm.dirty) {
-      this.signInForm.reset();
-    }
+    this.tabSelected = tab;
+    if (tab === 0 && !this.signUpForm.dirty) this.signUpForm.reset();
+    if (tab === 1 && !this.signInForm.dirty) this.signInForm.reset();
   }
 }
