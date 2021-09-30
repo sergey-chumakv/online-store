@@ -2,8 +2,58 @@
 	height: 100%;
 }
 
+::ng-deep {
+	.mat-dialog-container {
+		width: 50%;
+		overflow: hidden !important;
+		background: var(--color-background-warn);
+	}
+
+	.cdk-overlay-pane {
+		width: 50%;
+	}
+
+	@media (max-width: 500px) {
+		.cdk-overlay-pane {
+			width: 90%;
+			max-width: 95% !important;
+			height: 95% !important;
+		}
+	}
+
+	@media (max-width: 1000px) {
+		.cdk-overlay-pane {
+			width: 80%;
+			height: 70%;
+		}
+	}
+}
+
+.main-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	height: 100%;
+	margin: 0;
+}
+
+app-main-tabs {
+	width: 150px;
+	background: #5fc3e4;
+}
+
+app-news-list {
+	width: 100%;
+	background: #ff7a7a;
+}
+
 mat-drawer-container {
 	height: 100%;
+}
+
+mat-drawer-content {
+	display: flex;
+	flex-direction: column;
 }
 
 img {

@@ -83,7 +83,8 @@ export class AuthComponent {
     this.auth.login(this.signInForm.value).subscribe(
       () => {
         this.auth.getUserData(this.auth.token).subscribe(
-          () => {
+          (v) => {
+            localStorage.setItem('user', JSON.stringify(v.users[0]));
             this.signInForm.reset();
             this.router.navigate(['/home']);
             this.submitted = false;

@@ -42,7 +42,7 @@ export interface IUpdateProfileResponse {
   providerUserInfo: IProviderUserInfo[];
 }
 
-interface IUserData {
+export interface IUserData {
   createdAt: string;
   displayName: string;
   email: string;

@@ -1,11 +1,14 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="true">
   <mat-drawer class="drawer" #drawer [mode]="'over'">
+    <div>{{ user.displayName }}</div>
     <button mat-button color="primary" (click)="logout()" routerLink="auth">Logout</button>
   </mat-drawer>
   <mat-drawer-content>
-    <div>
-      <img src="assets/img/sp-city-night.jpg" alt="day" />
-    </div>
+    <img src="assets/img/sp-city-night.jpg" alt="day" />
     <mat-icon (click)="drawer.open()">menu</mat-icon>
+    <div class="main-wrapper">
+      <app-main-tabs></app-main-tabs>
+      <app-news-list></app-news-list>
+    </div>
   </mat-drawer-content>
 </mat-drawer-container>

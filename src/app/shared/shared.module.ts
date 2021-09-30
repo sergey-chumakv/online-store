@@ -6,10 +6,20 @@ import { SnackBarComponent } from './material/snack-bar/snack-bar.component';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from './material/dialog/dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [SnackBarComponent],
-  exports: [MatTabsModule, MatButtonModule, MatInputModule, MatSidenavModule, MatIconModule],
-  imports: [CommonModule],
+  declarations: [SnackBarComponent, DialogComponent],
+  exports: [
+    MatTabsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatDialogModule,
+  ],
+  imports: [CommonModule, MatButtonModule, MatSnackBarModule],
 })
 export class SharedModule {}
