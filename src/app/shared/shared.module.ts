@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './material/dialog/dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [SnackBarComponent, DialogComponent],
@@ -19,7 +21,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSidenavModule,
     MatIconModule,
     MatDialogModule,
+    MatSnackBarModule,
+    MatButtonToggleModule,
+    HttpClientModule,
   ],
   imports: [CommonModule, MatButtonModule, MatSnackBarModule],
+  providers: [],
 })
 export class SharedModule {}

@@ -40,18 +40,18 @@
       true,
       {
         "order": [
+          "public-instance-field",
           "protected-instance-field",
           "private-instance-field",
-          "public-instance-field",
+          "public-instance-accessor",
           "protected-instance-accessor",
           "private-instance-accessor",
-          "public-instance-accessor",
+          "public-constructor",
           "protected-constructor",
           "private-constructor",
-          "public-constructor",
+          "public-instance-method",
           "protected-instance-method",
-          "private-instance-method",
-          "public-instance-method"
+          "private-instance-method"
         ]
       }
     ],
@@ -116,13 +116,7 @@
         }
       ]
     },
-    "variable-name": {
-      "options": [
-        "ban-keywords",
-        "check-format",
-        "allow-pascal-case"
-      ]
-    },
+    "variable-name": false,
     "whitespace": {
       "options": [
         "check-branch",

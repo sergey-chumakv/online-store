@@ -6,9 +6,14 @@
 	background: var(--color-background-auth);
 
 	&__header {
-		content: url('../../assets/img/south-park.png');
-		height: 100px;
-		margin: 0 10px 10px 10px;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+
+		&--img {
+			height: 100px;
+			margin: 0 10px 10px 10px;
+		}
 	}
 
 	&__footer {
@@ -18,7 +23,6 @@
 		font-size: 32px;
 
 		&--avatar {
-			content: url('../../assets/img/mysterion.png');
 			height: 100px;
 		}
 
@@ -54,35 +58,6 @@
 .auth {
 	align-self: center;
 	width: 500px;
-
-	&__sign-in {
-		display: flex;
-		flex-flow: column;
-		justify-content: space-between;
-		margin: 10px;
-	}
-
-	&__form {
-		width: 100%;
-		min-width: 150px;
-		max-width: 600px;
-
-		&--full-width {
-			width: 100%;
-		}
-
-		&--nonEqual {
-			margin-top: -18px;
-			margin-left: 10px;
-			font-size: 10.5px;
-		}
-	}
-
-	&__error {
-		margin: -7px 0 3px 10px;
-		color: var(--color-text-error);
-		font-size: 10.5px;
-	}
 }
 
 @media (max-width: 1000px) {
@@ -121,7 +96,7 @@
 }
 
 @media (max-width: 325px) {
-	.auth-wrapper__header {
+	.auth-wrapper__header--img {
 		height: 80px;
 		margin-left: 10px;
 	}

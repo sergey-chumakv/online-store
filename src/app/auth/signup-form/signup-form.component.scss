@@ -1,0 +1,33 @@
+.auth {
+	align-self: center;
+	width: 500px;
+
+	&--nonEqual {
+		margin-top: -18px;
+		margin-left: 10px;
+		font-size: 10.5px;
+	}
+
+	&__error {
+		margin: -7px 0 3px 10px;
+		color: var(--color-text-error);
+		font-size: 10.5px;
+	}
+
+	&__sign-in {
+		display: flex;
+		flex-flow: column;
+		justify-content: space-between;
+		margin: 10px;
+	}
+
+	&__form {
+		width: 100%;
+		min-width: 150px;
+		max-width: 600px;
+
+		&--full-width {
+			width: 100%;
+		}
+	}
+}

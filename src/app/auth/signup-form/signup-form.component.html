@@ -1,0 +1,73 @@
+<div class="auth__sign-in">
+  <form [formGroup]="signupForm" (keyup.enter)="submit()" class="auth__form">
+    <mat-form-field class="auth__form--full-width" appearance="fill">
+      <mat-label>Username</mat-label>
+      <input
+        formControlName="username"
+        type="text"
+        matInput
+        placeholder="Login"
+        autocomplete="off" />
+
+      <mat-error *ngIf="isUsernameEmpty"> You suck (Username is required) </mat-error>
+      <mat-error *ngIf="!isUsernameEmpty"> You suck (Only letters allowed) </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="auth__form--full-width" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        formControlName="email"
+        type="email"
+        matInput
+        placeholder="Ex. pat@example.com"
+        autocomplete="off" />
+
+      <mat-error *ngIf="isEmailEmpty"> You suck (Email is required) </mat-error>
+      <mat-error *ngIf="!isEmailEmpty"> You suck (Please enter a valid email address) </mat-error>
+    </mat-form-field>
+
+    <div formGroupName="password">
+      <mat-form-field class="auth__form--full-width" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          formControlName="password"
+          type="password"
+          matInput
+          placeholder="******"
+          autocomplete="off" />
+
+        <mat-error *ngIf="isPasswordEmpty"> You suck (Password is required) </mat-error>
+        <mat-error *ngIf="!isPasswordEmpty">
+          You suck (Minimum length must be 6 characters) Actual:{{ currentPasswordLength }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="auth__form--full-width" appearance="fill">
+        <mat-label>Repeat password</mat-label>
+        <input
+          formControlName="copyPassword"
+          type="password"
+          matInput
+          placeholder="******"
+          autocomplete="off" />
+
+        <mat-error *ngIf="isCopyPasswordEmpty"> You suck ( Repeat password is required) </mat-error>
+      </mat-form-field>
+
+      <div class="auth__error" *ngIf="!isEqualPassword">
+        You suck ({{ signupForm.get('password')?.errors?.nonEqual }})
+      </div>
+    </div>
+  </form>
+
+  <div class="auth__error" *ngIf="auth.errorSignUp$ | async as error">You suck ({{ error }})</div>
+
+  <button
+    type="submit"
+    (click)="submit()"
+    [disabled]="signupForm?.invalid || submitted"
+    mat-raised-button
+    color="primary">
+    Submit
+  </button>
+</div>

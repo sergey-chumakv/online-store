@@ -1,0 +1,47 @@
+<div class="auth__sign-in">
+  <form [formGroup]="loginForm" (keyup.enter)="submit()" autocomplete="off" class="auth__form">
+    <mat-form-field class="auth__form--full-width" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input type="email" formControlName="email" matInput placeholder="Ex. pat@example.com" />
+
+      <mat-error *ngIf="!isEmailEmpty"> You suck (Please enter a valid email address) </mat-error>
+      <mat-error *ngIf="isEmailEmpty"> You suck (Email is required) </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="auth__form--full-width" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        [type]="hide ? 'password' : 'text'"
+        formControlName="password"
+        matInput
+        placeholder="******" />
+
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide">
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+
+      <mat-error *ngIf="!isPasswordEmpty">
+        You suck (Minimum length must be 6 characters) Actual:{{ actualLengthPassword }}
+      </mat-error>
+      <mat-error *ngIf="isPasswordEmpty"> You suck (Password is required) </mat-error>
+    </mat-form-field>
+  </form>
+
+  <div class="auth__error" *ngIf="auth.errorLogin$ | async as error">You suck ({{ error }})</div>
+
+  <button
+    (click)="submit()"
+    type="submit"
+    [disabled]="loginForm?.invalid || submitted"
+    mat-raised-button
+    color="primary">
+    Login
+  </button>
+
+  <button mat-button color="primary" [routerLink]="['/home']">as Guest</button>
+</div>

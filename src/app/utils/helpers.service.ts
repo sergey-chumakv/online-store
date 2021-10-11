@@ -13,7 +13,7 @@ export class HelpersService {
     style: ThemePalette = 'primary',
   ): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
-      duration: 2000,
+      duration: 2500,
       verticalPosition: 'top',
       horizontalPosition: 'center',
       data: {

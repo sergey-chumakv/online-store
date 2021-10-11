@@ -1,29 +1,3 @@
-export interface ISingInForm {
-  email: string;
-  password: string;
-  returnSecureToken?: boolean;
-}
-
-export interface ISingUpForm extends ISingInForm {
-  login: string;
-}
-
-export interface IAuthSignUpResponse {
-  email: string;
-  idToken: string;
-  localId: string;
-  expiresIn: string;
-  refreshToken: string;
-}
-
-export interface IAuthLoginResponse extends IAuthSignUpResponse {
-  registered: boolean;
-}
-
-export interface IAuthConfirmationResponse {
-  email: string;
-}
-
 interface IProviderUserInfo {
   displayName: string;
   email: string;
@@ -32,7 +6,7 @@ interface IProviderUserInfo {
   rawId: string;
 }
 
-export interface IUpdateProfileResponse {
+export interface IChangeUserDataResp {
   displayName: string;
   email: string;
   emailVerified: boolean;
@@ -56,7 +30,7 @@ export interface IUserData {
   providerUserInfo: IProviderUserInfo[];
 }
 
-export interface IAccountDataResponse {
+export interface IGetUserDataResp {
   kind: string;
   users: IUserData[];
 }

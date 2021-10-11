@@ -1,37 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
-  IAuthConfirmationResponse,
-  IAuthLoginResponse,
-  IAuthSignUpResponse,
-  ISingInForm,
+  IConfirmEmailResp,
+  ILoginResp,
+  ISignUpResp,
+  ILoginForm,
   ISingUpForm,
-  IAccountDataResponse,
-  IUpdateProfileResponse,
-} from './auth.types';
+} from '../../auth/auth.types';
 import { Observable, Subject, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import { catchError, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private static setToken(response: IAuthLoginResponse | null): void {
-    if (response) {
-      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
-      localStorage.setItem('fb-token', response.idToken);
-      localStorage.setItem('fb-token-exp', expDate.toString());
-    } else {
-      localStorage.clear();
-    }
-  }
-
-  private static verifiedAccount(response: IAccountDataResponse): void {
-    if (response) {
-      localStorage.setItem('isVerifiedAccount', String(response.users[0].emailVerified));
-    }
-  }
   public errorLogin$: Subject<string> = new Subject<string>();
   public errorSignUp$: Subject<string> = new Subject<string>();
 
@@ -43,15 +26,47 @@ export class AuthService {
     return null;
   }
 
-  get isVerifiedAccount(): boolean {
-    return JSON.parse(localStorage.getItem('isVerifiedAccount') as string);
+  private static setToken(response: ILoginResp | null): void {
+    if (response) {
+      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+      localStorage.setItem('fb-token', response.idToken);
+      localStorage.setItem('fb-token-exp', expDate.toString());
+    } else {
+      localStorage.clear();
+    }
   }
 
   get isAuthenticated(): boolean {
     return !!this.token;
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
+
+  public login(singInForm: ILoginForm): Observable<unknown> {
+    return this.http
+      .post<ILoginResp>(`accounts:signInWithPassword`, {
+        ...singInForm,
+        returnSecureToken: true,
+      })
+      .pipe(tap(AuthService.setToken), catchError(this.handleErrorLogin.bind(this)));
+  }
+
+  public signUp(singUpForm: ISingUpForm): Observable<ISignUpResp | Error> {
+    return this.http
+      .post<ISignUpResp>(`accounts:signUp`, { ...singUpForm, returnSecureToken: true })
+      .pipe(catchError(this.handleErrorSignUp.bind(this)));
+  }
+
+  public logout(): void {
+    AuthService.setToken(null);
+  }
+
+  public confirmUserEmail(idToken: string): Observable<IConfirmEmailResp> {
+    return this.http.post<IConfirmEmailResp>(`accounts:sendOobCode`, {
+      requestType: 'VERIFY_EMAIL',
+      idToken,
+    });
+  }
 
   private handleErrorLogin(error: HttpErrorResponse): Observable<Error> {
     const { message } = error.error.error;
@@ -90,60 +105,5 @@ export class AuthService {
     }
 
     return throwError(error);
-  }
-
-  public login(singInForm: ISingInForm): Observable<unknown> {
-    singInForm.returnSecureToken = true;
-
-    return this.http
-      .post<IAuthLoginResponse>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
-        singInForm,
-      )
-      .pipe(tap(AuthService.setToken), catchError(this.handleErrorLogin.bind(this)));
-  }
-
-  public signUp(singUpForm: ISingUpForm): Observable<IAuthSignUpResponse | Error> {
-    singUpForm.returnSecureToken = true;
-
-    return this.http
-      .post<IAuthSignUpResponse>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
-        singUpForm,
-      )
-      .pipe(catchError(this.handleErrorSignUp.bind(this)));
-  }
-
-  public logout(): void {
-    AuthService.setToken(null);
-  }
-
-  public confirmationEmail(idToken: string): Observable<IAuthConfirmationResponse> {
-    return this.http.post<IAuthConfirmationResponse>(
-      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${environment.apiKey}`,
-      { requestType: 'VERIFY_EMAIL', idToken },
-    );
-  }
-
-  public getUserData(idToken: string | null): Observable<IAccountDataResponse> {
-    return this.http
-      .post<IAccountDataResponse>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${environment.apiKey}`,
-        { idToken },
-      )
-      .pipe(tap(AuthService.verifiedAccount));
-  }
-
-  public updateUserProfile(idToken: string, userName: string): Observable<IUpdateProfileResponse> {
-    const body = {
-      idToken,
-      displayName: userName,
-      returnSecureToken: false,
-    };
-
-    return this.http.post<IUpdateProfileResponse>(
-      `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${environment.apiKey}`,
-      body,
-    );
   }
 }

@@ -1,6 +1,5 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="true">
   <mat-drawer class="drawer" #drawer [mode]="'over'">
-    <div>{{ user.displayName }}</div>
     <button mat-button color="primary" (click)="logout()" routerLink="auth">Logout</button>
   </mat-drawer>
   <mat-drawer-content>
