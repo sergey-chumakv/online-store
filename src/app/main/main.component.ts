@@ -19,7 +19,9 @@ export class MainComponent implements OnInit {
     public store: Store,
   ) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    console.log('otstoy');
+  }
 
   public logout(): void {
     this.auth.logout();
